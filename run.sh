@@ -117,7 +117,7 @@ echo "
 ╚═══════════════════════════════════════════════╝
 "
 
-$GAME_DIR/game/bin/linuxsteamrt64/cs2 -dedicated -usercon \
+$GAME_DIR/game/bin/linuxsteamrt64/cs2 -dedicated -usercon -secure \
 +hostname \"${CS2_SERVER_HOSTNAME}\" \
 $CS2_SERVER_IP \
 -port $CS2_SERVER_PORT \
