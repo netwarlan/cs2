@@ -18,8 +18,7 @@ echo "
 ║                                               ║
 ║ For more information:                         ║
 ║ github.com/netwarlan                          ║
-╚═══════════════════════════════════════════════╝
-"
+╚═══════════════════════════════════════════════╝"
 
 
 ## Set default values if none were provided
@@ -35,8 +34,8 @@ echo "
 [[ -z "$CS2_SERVER_STEAMACCOUNT" ]] && CS2_SERVER_STEAMACCOUNT=""
 [[ -z "$CS2_SERVER_GAME_TYPE" ]] && CS2_SERVER_GAME_TYPE="0"
 [[ -z "$CS2_SERVER_GAME_MODE" ]] && CS2_SERVER_GAME_MODE="0"
+[[ -z "$CS2_SERVER_GAME_MODE_CONFIG" ]] && CS2_SERVER_GAME_MODE_CONFIG=""
 [[ -z "$CS2_SERVER_MAPGROUP" ]] && CS2_SERVER_MAPGROUP="mg_active"
-[[ -z "$CS2_SERVER_ENABLE_REMOTE_CFG" ]] && CS2_SERVER_ENABLE_REMOTE_CFG=false
 [[ -z "$CS2_SERVER_UPDATE_ON_START" ]] && CS2_SERVER_UPDATE_ON_START=true
 [[ -z "$CS2_SERVER_VALIDATE_ON_START" ]] && CS2_SERVER_VALIDATE_ON_START=false
 [[ -z "$CS2_SERVER_GOTV_ENABLE" ]] && CS2_SERVER_GOTV_ENABLE="0"
@@ -56,11 +55,10 @@ if [[ "$CS2_SERVER_UPDATE_ON_START" = true ]] || [[ "$CS2_SERVER_VALIDATE_ON_STA
 echo "
 ╔═══════════════════════════════════════════════╗
 ║ Checking for updates                          ║
-╚═══════════════════════════════════════════════╝
-"
+╚═══════════════════════════════════════════════╝"
   if [[ "$CS2_SERVER_VALIDATE_ON_START" = true ]]; then
     VALIDATE_FLAG='validate'
-  else 
+  else
     VALIDATE_FLAG=''
   fi
 
@@ -73,24 +71,15 @@ echo "
 fi
 
 
-## Download config if needed
+## Download gamemode config if needed
 ## ==============================================
-if [[ "$CS2_SERVER_ENABLE_REMOTE_CFG" = true ]]; then
+if [[ "$CS2_SERVER_GAME_MODE_CONFIG" ]]; then
 echo "
 ╔═══════════════════════════════════════════════╗
-║ Downloading remote config                     ║
-╚═══════════════════════════════════════════════╝
-"
-  ## Check if we are casual or competitive gamemode
-  if [[ "$CS2_SERVER_GAME_MODE" -eq "0" ]]; then
-    echo "  Downloading Casual config..."
-    wget -q $CS2_SERVER_REMOTE_CFG -O $GAME_DIR/game/csgo/cfg/gamemode_casual_server.cfg
-
-  elif [[ "$CS2_SERVER_GAME_MODE" -eq "1" ]]; then
-    echo "  Downloading Competitive config..."
-    wget -q $CS2_SERVER_REMOTE_CFG -O $GAME_DIR/game/csgo/cfg/gamemode_competitive_server.cfg
-  fi
-
+║ Downloading gamemode config                   ║
+╚═══════════════════════════════════════════════╝"
+  echo " - Downloading gamemode config..."
+  wget -q $CS2_SERVER_GAME_MODE_CONFIG -O $GAME_DIR/game/csgo/gamemodes_server.txt
 fi
 
 
@@ -102,8 +91,7 @@ fi
 echo "
 ╔═══════════════════════════════════════════════╗
 ║ Server set with provided values               ║
-╚═══════════════════════════════════════════════╝
-"
+╚═══════════════════════════════════════════════╝"
 printenv | grep CS2
 
 
@@ -114,14 +102,13 @@ printenv | grep CS2
 echo "
 ╔═══════════════════════════════════════════════╗
 ║ Starting SERVER                               ║
-╚═══════════════════════════════════════════════╝
-"
+╚═══════════════════════════════════════════════╝"
 
 $GAME_DIR/game/bin/linuxsteamrt64/cs2 -dedicated -usercon -secure \
 +hostname \"${CS2_SERVER_HOSTNAME}\" \
 $CS2_SERVER_IP \
 -port $CS2_SERVER_PORT \
--maxplayers_override $CS2_SERVER_MAXPLAYERS \
+-maxplayers $CS2_SERVER_MAXPLAYERS \
 +map $CS2_SERVER_MAP \
 +game_type $CS2_SERVER_GAME_TYPE \
 +game_mode $CS2_SERVER_GAME_MODE \
