@@ -49,6 +49,9 @@ echo "
 [[ -z "$STEAMCMD_PASSWORD" ]] && STEAMCMD_PASSWORD=""
 [[ -z "$STEAMCMD_AUTH_CODE" ]] && STEAMCMD_AUTH_CODE=""
 
+
+
+
 ## Update on startup
 ## ==============================================
 if [[ "$CS2_SERVER_UPDATE_ON_START" = true ]] || [[ "$CS2_SERVER_VALIDATE_ON_START" = true ]]; then
@@ -69,6 +72,31 @@ echo "
   +quit
 
 fi
+
+
+## Download server config if needed
+## ==============================================
+if [[ "$CS2_SERVER_REMOTE_CFG" ]]; then
+echo "
+╔═══════════════════════════════════════════════╗
+║ Downloading remote config                     ║
+╚═══════════════════════════════════════════════╝"
+  ## Check if we are casual or competitive gamemode
+  if [[ "$CS2_SERVER_GAME_TYPE" -eq "0" ]] && [[ "$CS2_SERVER_GAME_MODE" -eq "0" ]]; then
+    echo " - Downloading Casual config..."
+    wget -q $CS2_SERVER_REMOTE_CFG -O $GAME_DIR/game/csgo/cfg/gamemode_casual_server.cfg
+
+  elif [[ "$CS2_SERVER_GAME_TYPE" -eq "0" ]] &&  [[ "$CS2_SERVER_GAME_MODE" -eq "1" ]]; then
+    echo " - Downloading Competitive config..."
+    wget -q $CS2_SERVER_REMOTE_CFG -O $GAME_DIR/game/csgo/cfg/gamemode_competitive_server.cfg
+
+  elif [[ "$CS2_SERVER_GAME_TYPE" -eq "1" ]] &&  [[ "$CS2_SERVER_GAME_MODE" -eq "0" ]]; then
+    echo " - Downloading Arms Race config..."
+    wget -q $CS2_SERVER_REMOTE_CFG -O $GAME_DIR/game/csgo/cfg/gamemode_armsrace_server.cfg
+  fi
+
+fi
+
 
 
 ## Download gamemode config if needed
@@ -101,7 +129,7 @@ printenv | grep CS2
 ## ==============================================
 echo "
 ╔═══════════════════════════════════════════════╗
-║ Starting SERVER                               ║
+║ Starting Server                               ║
 ╚═══════════════════════════════════════════════╝"
 
 $GAME_DIR/game/bin/linuxsteamrt64/cs2 -dedicated -usercon -secure \
