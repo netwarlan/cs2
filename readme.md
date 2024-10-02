@@ -10,19 +10,9 @@ To run the container, issue the following example command:
 docker run -d \
 -p 27015:27015/udp \
 -p 27015:27015/tcp \
--e STEAMCMD_USER="<steam username>" \
--e STEAMCMD_PASSWORD="<steam password>" \
--e STEAMCMD_AUTH_CODE="<steam guard code>" \
 -e CS2_SERVER_HOSTNAME="DOCKER CS2" \
 ghcr.io/netwarlan/cs2:latest
 ```
-
-### Steam Authentication / Steam Guard
-In order to run CS2 in a dedicated server fashion like previously done, Valve requires an active Steam account with the game already "purchased" and added to your account. (Since the game is free, we just need to install it once to have it added to our account.) Previous Counter Strike games didn't have this requirement, so an "anonymous" login was used to download game files.
-
-I've added the ability to pass these credentials into the docker runtime so it can be easily be done. 
-
-NOTE: I would highly recommend creating a secondary Steam account to manage this dedicated server instead of using your "real" account. 
 
 ### Environment Variables
 We can make dynamic changes to our CS2 containers by adjusting some of the environment variables passed to our image.
@@ -54,7 +44,5 @@ CS2_SERVER_GOTV_PASSWORD | n/a
 CS2_SERVER_GOTV_TITLE | CS2 TV
 CS2_SERVER_GOTV_MAXCLIENTS | 3
 CS2_SERVER_GOTV_AUTORECORD | 1
-
-
-### Competitive Play
-TODO
+CS2_SERVER_GOTV_BROADCAST | 1
+CS2_SERVER_LOGS_DIRECTORY | logs
