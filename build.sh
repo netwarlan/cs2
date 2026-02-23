@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t netwarlan/cs2 .
+docker build -t ghcr.io/netwarlan/cs2 "$@" .
