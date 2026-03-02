@@ -149,10 +149,10 @@ echo "
 $CS2_SERVER_IP \
 -port "$CS2_SERVER_PORT" \
 -maxplayers "$CS2_SERVER_MAXPLAYERS" \
-+map "$CS2_SERVER_MAP" \
 +game_type "$CS2_SERVER_GAME_TYPE" \
 +game_mode "$CS2_SERVER_GAME_MODE" \
 +mapgroup "$CS2_SERVER_MAPGROUP" \
++map "$CS2_SERVER_MAP" \
 $CS2_SERVER_RCONPW \
 $CS2_SERVER_PW \
 +sv_setsteamaccount "$CS2_SERVER_STEAMACCOUNT" \
