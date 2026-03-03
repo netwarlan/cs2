@@ -1,4 +1,9 @@
 # Counter Strike 2
+
+[![Build](https://img.shields.io/github/actions/workflow/status/netwarlan/cs2/build.yml)](https://github.com/netwarlan/cs2/actions)
+[![Release](https://img.shields.io/github/v/release/netwarlan/cs2)](https://github.com/netwarlan/cs2/releases)
+[![Discord](https://img.shields.io/badge/Discord-Join-5865F2?logo=discord&logoColor=white)](https://discord.gg/QtqKW9xvzK)
+
 The following repository contains the source files for building a CS2 server.
 
 ### Notice
