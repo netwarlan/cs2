@@ -6,9 +6,6 @@
 
 The following repository contains the source files for building a CS2 server.
 
-### Notice
-This stuff is brand new and will certainly change over time. Some of the below settings don't appear to work anymore, like maxplayers.
-
 ### Running
 To run the container, issue the following example command:
 ```
