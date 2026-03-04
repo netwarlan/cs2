@@ -36,6 +36,8 @@ CS2_SERVER_MAPGROUP="${CS2_SERVER_MAPGROUP:-mg_active}"
 CS2_SERVER_UPDATE_ON_START="${CS2_SERVER_UPDATE_ON_START:-true}"
 CS2_SERVER_VALIDATE_ON_START="${CS2_SERVER_VALIDATE_ON_START:-false}"
 CS2_SERVER_REMOTE_CFG="${CS2_SERVER_REMOTE_CFG:-}"
+CS2_SERVER_UPDATE_ONLY_THEN_STOP="${CS2_SERVER_UPDATE_ONLY_THEN_STOP:-false}"
+CS2_SERVER_VALIDATE_ONLY_THEN_STOP="${CS2_SERVER_VALIDATE_ONLY_THEN_STOP:-false}"
 CS2_SERVER_GOTV_ENABLE="${CS2_SERVER_GOTV_ENABLE:-0}"
 CS2_SERVER_GOTV_PORT="${CS2_SERVER_GOTV_PORT:-27020}"
 CS2_SERVER_GOTV_NAME="${CS2_SERVER_GOTV_NAME:-CS2 TV}"
@@ -44,7 +46,7 @@ CS2_SERVER_GOTV_PASSWORD="${CS2_SERVER_GOTV_PASSWORD:-}"
 CS2_SERVER_GOTV_TITLE="${CS2_SERVER_GOTV_TITLE:-CS2 TV}"
 CS2_SERVER_GOTV_AUTORECORD="${CS2_SERVER_GOTV_AUTORECORD:-1}"
 CS2_SERVER_GOTV_MAXCLIENTS="${CS2_SERVER_GOTV_MAXCLIENTS:-3}"
-CS2_SERVER_GOTV_BROADCAST="${CS2_SERVER_GOTV_BROADCAST:-1}"
+CS2_SERVER_GOTV_BROADCAST="${CS2_SERVER_GOTV_BROADCAST:-0}"
 CS2_SERVER_LOGS_DIRECTORY="${CS2_SERVER_LOGS_DIRECTORY:-logs}"
 [[ -n "$CS2_SERVER_IP" ]] && CS2_SERVER_IP="-ip $CS2_SERVER_IP"
 [[ -n "$CS2_SERVER_PW" ]] && CS2_SERVER_PW="+sv_password $CS2_SERVER_PW"
@@ -62,6 +64,31 @@ if [[ ! "$CS2_SERVER_MAXPLAYERS" =~ ^[0-9]+$ ]]; then
 fi
 
 
+## Download game files only (without starting server)
+## ==============================================
+if [[ "$CS2_SERVER_UPDATE_ONLY_THEN_STOP" = true ]] || [[ "$CS2_SERVER_VALIDATE_ONLY_THEN_STOP" = true ]]; then
+echo "
+╔═══════════════════════════════════════════════╗
+║ Downloading game files only                   ║
+╚═══════════════════════════════════════════════╝"
+  if [[ "$CS2_SERVER_VALIDATE_ONLY_THEN_STOP" = true ]]; then
+    VALIDATE_FLAG='validate'
+  else
+    VALIDATE_FLAG=''
+  fi
+
+  "$STEAMCMD_DIR/steamcmd.sh" \
+  +force_install_dir "$GAME_DIR" \
+  +login "$STEAMCMD_USER" "$STEAMCMD_PASSWORD" "$STEAMCMD_AUTH_CODE" \
+  +app_update "$STEAMCMD_APP" $VALIDATE_FLAG \
+  +quit
+
+echo "
+╔═══════════════════════════════════════════════╗
+║ Game files downloaded. Stopping container.    ║
+╚═══════════════════════════════════════════════╝"
+  exit 0
+fi
 
 
 ## Update on startup

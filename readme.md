@@ -19,6 +19,21 @@ docker run -d \
 ghcr.io/netwarlan/cs2:latest
 ```
 
+### Downloading Game Files Only
+To pre-download game files without starting the server (useful for pre-populating volumes):
+```
+docker run --rm -v cs2-data:/app/cs2 \
+-e CS2_SERVER_UPDATE_ONLY_THEN_STOP=true \
+ghcr.io/netwarlan/cs2:latest
+```
+
+To download and validate game files:
+```
+docker run --rm -v cs2-data:/app/cs2 \
+-e CS2_SERVER_VALIDATE_ONLY_THEN_STOP=true \
+ghcr.io/netwarlan/cs2:latest
+```
+
 ### Environment Variables
 We can make dynamic changes to our CS2 containers by adjusting some of the environment variables passed to our image.
 Below are the ones currently supported and their (defaults):
@@ -35,19 +50,20 @@ CS2_SERVER_RCONPW | No password set
 CS2_SERVER_STEAMACCOUNT | No account set (needed for public servers)
 CS2_SERVER_UPDATE_ON_START | true
 CS2_SERVER_VALIDATE_ON_START | false
+CS2_SERVER_UPDATE_ONLY_THEN_STOP | false
+CS2_SERVER_VALIDATE_ONLY_THEN_STOP | false
 CS2_SERVER_GAME_MODE_CONFIG | Not set
 CS2_SERVER_GAME_TYPE | 0
 CS2_SERVER_GAME_MODE | 0
 CS2_SERVER_MAPGROUP | mg_active
-CS2_SERVER_ENABLE_REMOTE_CFG | false
-CS2_SERVER_REMOTE_CFG | n/a
+CS2_SERVER_REMOTE_CFG | Not set
 CS2_SERVER_GOTV_ENABLE | 0
 CS2_SERVER_GOTV_PORT | 27020
-CS2_SERVER_GOTV_NAME | n/a
-CS2_SERVER_GOTV_DELAY | 60 seconds
-CS2_SERVER_GOTV_PASSWORD | n/a
+CS2_SERVER_GOTV_NAME | CS2 TV
+CS2_SERVER_GOTV_DELAY | 60
+CS2_SERVER_GOTV_PASSWORD | Not set
 CS2_SERVER_GOTV_TITLE | CS2 TV
 CS2_SERVER_GOTV_MAXCLIENTS | 3
 CS2_SERVER_GOTV_AUTORECORD | 1
-CS2_SERVER_GOTV_BROADCAST | 1
+CS2_SERVER_GOTV_BROADCAST | 0
 CS2_SERVER_LOGS_DIRECTORY | logs
