@@ -87,7 +87,7 @@ echo "
 ╔═══════════════════════════════════════════════╗
 ║ Game files downloaded. Stopping container.    ║
 ╚═══════════════════════════════════════════════╝"
-  exit 0
+  sleep infinity
 fi
 
 
